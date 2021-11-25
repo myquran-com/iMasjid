@@ -11,13 +11,13 @@ Informasi Masjid
 
 ### Content
 - content-type-1
-<img alt="Content Type 1" src"img/content-type-1.png" width="200"/>
+ <img alt="Content Type 1" src"img/content-type-1.png" width="200"/>
 - content-type-2
-<img alt="Content Type 2" src"img/content-type-2.png" width="200"/>
+ <img alt="Content Type 2" src"img/content-type-2.png" width="200"/>
 - content-type-3
-<img alt="Content Type 3" src"img/content-type-3.png" width="200"/>
+ <img alt="Content Type 3" src"img/content-type-3.png" width="200"/>
 - content-type-4
-<img alt="Content Type 4" src"img/content-type-4.png" width="200"/>
+ <img alt="Content Type 4" src"img/content-type-4.png" width="200"/>
 
 ## Preview
 ![iMasjid](preview.png)
