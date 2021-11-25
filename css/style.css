@@ -20,6 +20,20 @@ p {
 	margin-bottom: 3vh;
 }
 
+.in60 {
+	width: 30%;
+	padding: 1vh;
+	margin-top: 1vh;
+	margin-bottom: 3vh;
+}
+
+.in90 {
+	width: 90%;
+	padding: 1vh;
+	margin-top: 1vh;
+	margin-bottom: 3vh;
+}
+
 .in100 {
 	width: 100%;
 	padding: 1vh;
