@@ -11,9 +11,7 @@ Informasi Masjid
 
 ### Content
 - content-type-1
-
-<img alt="Content Type 1" src"img/content-type-1.png" width="200"/>
-
+<img src="img/content-type-1.png" width="200">
 - content-type-2
  <img alt="Content Type 2" src"img/content-type-2.png" width="200"/>
 - content-type-3
