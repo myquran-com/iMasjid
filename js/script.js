@@ -344,6 +344,8 @@ if (action == "setting") {
   p_node_info_2.appendChild(p_textnode_info_2);
   document.getElementById("informasi").appendChild(p_node_info_2);
   document.getElementById("preview").style.display = "block";
+} else {
+  document.getElementById("selamat-datang").style.display = "block";
 }
 
 function callApi(url_api, callback) {
