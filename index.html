@@ -5,14 +5,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Jadwal Sholat</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script async defer src="https://api-stats.banghasan.com/public/aurora.js" aurora-id="6ac0863338cd85f88d7be21a895df8f6"></script>
 </head>
 <body>
+	<div class="center hide" id="tunggu">
+		<p>Mohon Tunggu...</p>
+		<progress value="0" max="12" id="tunggu_value"></progress>
+	</div>
 	<div class="center hide" id="selamat-datang">
 		<h1>Assalamu'laikum Wr Wb</h1>
 		<h2>Selamat datang di iMasjid(Informasi Masjid)</h2>
 		<p>Semoga bermanfaat bagi kita semua. aamiin</p>
-		<a href="?action=setting"><button class="m2">Mulai</button></a>
+		<a href="?action=setting"><button class="m2">MULAI</button></a>
+		<button onclick="clearData()" style="background-color: red;">CLEAR DATA</button>
 	</div>
 	<div class="setting" id="setting">
 		<h1 class="center">Menu Setting</h1>
@@ -590,6 +594,105 @@
 				<option value="3412">KAB. TELUK WONDAMA</option>
 				<option value="3413">KOTA SORONG</option>
 			</select>
+			<br>
+			<br>
+			<p>Penyesuaian Waktu</p>
+			<label for="adj-imsak"> - Imsak : </label>
+			<select class="in10" id="adj-imsak">
+				<option value="-5">-5</option>
+				<option value="-4">-4</option>
+				<option value="-3">-3</option>
+				<option value="-2">-2</option>
+				<option value="-1">-1</option>
+				<option value="0" selected="true">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<span>menit</span>
+			<br>
+			<label for="adj-subuh"> - Subuh : </label>
+			<select class="in10" id="adj-subuh">
+				<option value="-5">-5</option>
+				<option value="-4">-4</option>
+				<option value="-3">-3</option>
+				<option value="-2">-2</option>
+				<option value="-1">-1</option>
+				<option value="0" selected="true">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<span>menit</span>
+			<br>
+			<label for="adj-dzuhur"> - Dzuhur : </label>
+			<select class="in10" id="adj-dzuhur">
+				<option value="-5">-5</option>
+				<option value="-4">-4</option>
+				<option value="-3">-3</option>
+				<option value="-2">-2</option>
+				<option value="-1">-1</option>
+				<option value="0" selected="true">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<span>menit</span>
+			<br>
+			<label for="adj-ashar"> - Ashar : </label>
+			<select class="in10" id="adj-ashar">
+				<option value="-5">-5</option>
+				<option value="-4">-4</option>
+				<option value="-3">-3</option>
+				<option value="-2">-2</option>
+				<option value="-1">-1</option>
+				<option value="0" selected="true">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<span>menit</span>
+			<br>
+			<label for="adj-maghrib"> - Maghrib : </label>
+			<select class="in10" id="adj-maghrib">
+				<option value="-5">-5</option>
+				<option value="-4">-4</option>
+				<option value="-3">-3</option>
+				<option value="-2">-2</option>
+				<option value="-1">-1</option>
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<span>menit</span>
+			<br>
+			<label for="adj-isya"> - Isya : </label>
+			<select class="in10" id="adj-isya">
+				<option value="-5">-5</option>
+				<option value="-4">-4</option>
+				<option value="-3">-3</option>
+				<option value="-2">-2</option>
+				<option value="-1">-1</option>
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+			<span>menit</span>
+			<br>
 		</div>
 		<h2>Footer</h2>
 		<div class="m2">
@@ -599,6 +702,7 @@
 			<input class="in90" type="text" id="informasi-2" value="Tetap jaga kebersihan, kesehatan, dan terapkan pola hidup sehat. semoga kita senantiasa dalam lindungan Nya. aamiin">
 		</div>
 		<div class="center">
+			<button onclick="reset()">RESET</button>
 			<button onclick="selesai()">SELESAI</button>
 		</div>
 	</div>
