@@ -1,18 +1,203 @@
 
+//last update = 03/12/2021
+
+function filterLokasi() {
+  var cari = document.getElementById("lokasi").value;
+  if (cari.length < 2) {
+    return;
+  }
+  var last_index = -1;
+  var options = document.getElementById("id-lokasi").getElementsByTagName("option");
+  for (var i = 0; i < options.length; i++) {
+    if (options[i].innerText.toLowerCase().includes(cari.toLowerCase())) {
+      options[i].style.display = "block";
+      last_index = i;
+    } else {
+      options[i].style.display = "none";
+    }
+  }
+  if (last_index != -1) {
+    options[last_index].selected = true;
+  }
+}
+
+function getValue(id) {
+  return document.getElementById(id).value;
+}
+
+function setValue(id, value) {
+  document.getElementById(id).value = value;
+}
+
+function getChecked(id) {
+  return document.getElementById(id).checked;
+}
+
+function setChecked(id, checked) {
+  document.getElementById(id).checked = checked;
+}
+
+function setConfig(data) {
+  var date = new Date();
+  date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+  document.cookie = "config=" + JSON.stringify(data) + ";" + "expires=" + date.toUTCString() + ";path=/";
+}
+
+function getConfig() {
+  var cookie = document.cookie;
+  if (cookie.includes("config=")) {
+    var index_cookie_start = cookie.indexOf("config=");
+    var index_cookie_end = cookie.indexOf("}");
+    if (index_cookie_start != -1 && index_cookie_end != -1) {
+      return JSON.parse(cookie.substring(index_cookie_start + 7, index_cookie_end + 1));
+    }
+  }
+  return null;
+}
+
+function reset() {
+  var date = new Date();
+  date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+  document.cookie = "config=;" + "expires=" + date.toUTCString() + ";path=/";
+}
+
+function setItem(item) {
+  window.localStorage.setItem("data", item);
+}
+
+function getItem() {
+  return window.localStorage.getItem("data");
+}
+
+function clearData() {
+  document.cookie.split(";").forEach(function(c) {
+    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+  });
+}
+
+function getSetting() {
+  var setting = {};
+  setting.nama = getValue("nama");
+  setting.alamat = getValue("alamat");
+  var head_type = "0";
+  if (getChecked("head-type-1")) {
+    head_type = "1";
+  }
+  if (getChecked("head-type-2")) {
+    head_type = "2";
+  }
+  if (getChecked("head-type-3")) {
+    head_type = "3";
+  }
+  setting.head_type = head_type;
+  setting.hide_alamat = getChecked("hide-alamat");
+  setting.hide_jam = getChecked("hide-jam");
+  setting.hide_jam_detik = getChecked("hide-jam-detik");
+  setting.hide_tanggal_masehi = getChecked("hide-tanggal-masehi");
+  setting.hide_tanggal_hijriah = getChecked("hide-tanggal-hijriah");
+  var content_type = "0";
+  if (getChecked("content-type-1")) {
+    content_type = "1";
+  }
+  if (getChecked("content-type-2")) {
+    content_type = "2";
+  }
+  if (getChecked("content-type-3")) {
+    content_type = "3";
+  }
+  if (getChecked("content-type-4")) {
+    content_type = "4";
+  }
+  setting.content_type = content_type;
+  var jadwal_type = "0";
+  if (getChecked("jadwal-type-1")) {
+    jadwal_type = "1";
+  }
+  if (getChecked("jadwal-type-2")) {
+    jadwal_type = "2";
+  }
+  setting.jadwal_type = jadwal_type;
+  setting.id = getValue("id-lokasi");
+  setting.imsak = getValue("adj-imsak");
+  setting.subuh = getValue("adj-subuh");
+  setting.dzuhur = getValue("adj-dzuhur");
+  setting.ashar = getValue("adj-ashar");
+  setting.maghrib = getValue("adj-maghrib");
+  setting.isya = getValue("adj-isya");
+  setting.informasi_1 = getValue("informasi-1");
+  setting.informasi_2 = getValue("informasi-2");
+  return setting;
+}
+
+function setSetting(setting) {
+  if (setting == null) {
+    return;
+  }
+  setValue("nama", setting.nama);
+  setValue("alamat", setting.alamat);
+  var head_type = setting.head_type;
+  if (head_type == "1") {
+    setChecked("head-type-1", true)
+  }
+  if (head_type == "2") {
+    setChecked("head-type-2", true);
+  }
+  if (head_type == "3") {
+    setChecked("head-type-3", true);
+  }
+  setChecked("hide-alamat", setting.hide_alamat);
+  setChecked("hide-jam", setting.hide_jam);
+  setChecked("hide-jam-detik", setting.hide_jam_detik);
+  setChecked("hide-tanggal-masehi", setting.hide_tanggal_masehi);
+  setChecked("hide-tanggal-hijriah", setting.hide_tanggal_hijriah);
+  var content_type = setting.content_type;
+  if (content_type == "1") {
+    setChecked("content-type-1", true);
+  }
+  if (content_type == "2") {
+    setChecked("content-type-2", true);
+  }
+  if (content_type == "3") {
+    setChecked("content-type-3", true);
+  }
+  if (content_type == "4") {
+    setChecked("content-type-4", true);
+  }
+  var jadwal_type = setting.jadwal_type;
+  if (jadwal_type == "1") {
+    setChecked("jadwal-type-1", true);
+  }
+  if (jadwal_type == "2") {
+    setChecked("jadwal-type-2", true);
+  }
+  setValue("id-lokasi", setting.id);
+  setValue("adj-imsak", setting.imsak);
+  setValue("adj-subuh", setting.subuh);
+  setValue("adj-dzuhur", setting.dzuhur);
+  setValue("adj-ashar", setting.ashar);
+  setValue("adj-maghrib", setting.maghrib);
+  setValue("adj-isya", setting.isya);
+  setValue("informasi-1", setting.informasi_1);
+  setValue("informasi-2", setting.informasi_2);
+}
+
+function selesai() {
+  var setting = getSetting();
+  if (setting != null) {
+    setConfig(setting);
+    var self = window.location;
+    self.href = self.origin + self.pathname + "?action=preview&id=" + setting.id + "&ht=" + setting.head_type + "&ha=" + setting.hide_alamat + "&hj=" + setting.hide_jam + "&hs=" + setting.hide_jam_detik + "&hm=" + setting.hide_tanggal_masehi + "&hh=" + setting.hide_tanggal_hijriah + "&ct=" + setting.content_type + "&jt=" + setting.jadwal_type + "&nama=" + setting.nama + "&alamat=" + setting.alamat + "&info1=" + setting.informasi_1 + "&info2=" + setting.informasi_2;
+  }
+}
+
 var url = new URL(window.location.href);
 var action = url.searchParams.get("action");
 var id_lokasi = url.searchParams.get("id");
 if (id_lokasi == null) {
   id_lokasi = "1609";
-}
+} 
 
-var list_nama = ["Imsak","Subuh","Dzuhur","Ashar","Maghrib","Isya"];
-var list_jadwal = [];
-var cur_date; 
-
-if (action == "setting") {
-  document.getElementById("setting").style.display = "block";
-} else if (action == "preview") {
+function preview() {
   var head_type = url.searchParams.get("ht");
   var hide_alamat = url.searchParams.get("ha");
   var hide_jam = url.searchParams.get("hj");
@@ -343,45 +528,59 @@ if (action == "setting") {
   var p_textnode_info_2 = document.createTextNode(informasi_2);
   p_node_info_2.appendChild(p_textnode_info_2);
   document.getElementById("informasi").appendChild(p_node_info_2);
+  document.getElementById("tunggu").style.display = "none";
   document.getElementById("preview").style.display = "block";
-} else {
-  document.getElementById("selamat-datang").style.display = "block";
 }
 
-function callApi(url_api, callback) {
+var data = {};
+var cur_date = new Date();
+var cur_index = 0;
+var cur_bulan = cur_date.getMonth() + 1;
+var cur_tahun = cur_date.getFullYear();
+
+function callApi(url_api) {
+  console.log(url_api);
   var xhr = new XMLHttpRequest();
+  xhr.responseType = 'json';
+  xhr.open("GET", url_api, true);
   xhr.onload = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
-      callback(true, xhr.responseText);
-    } else {
-      callback(false, xhr.responseText);
+      data[cur_bulan + "_" + cur_tahun] = xhr.response.data.jadwal;
+      cur_index++;
+      if (cur_bulan == 12) {
+        cur_bulan = 1;
+        cur_tahun++;
+      } else {
+        cur_bulan++;
+      }
+      document.getElementById("tunggu_value").value = cur_index;
+      if (cur_index < 12) {
+        callApi("https://api.myquran.com/v1/sholat/jadwal/" + id_lokasi + "/" + cur_tahun + "/" + cur_bulan);
+      } else {
+        setItem(JSON.stringify(data));
+        preview();
+      }
     }
   };
-  var date = new Date();
-  //console.log(url_api + id_lokasi + "/" + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate());
-  xhr.open("GET", url_api + id_lokasi + "/" + date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate(), true);
   xhr.send();
 }
 
-callApi("https://api.myquran.com/v1/sholat/jadwal/", function(status, response) {
-  if (status) {
-    var api = JSON.parse(response);
-    document.getElementById("imsak").innerHTML = api.data.jadwal.imsak;
-    list_jadwal.push(api.data.jadwal.imsak);
-    document.getElementById("subuh").innerHTML = api.data.jadwal.subuh;
-    list_jadwal.push(api.data.jadwal.subuh);
-    document.getElementById("dzuhur").innerHTML = api.data.jadwal.dzuhur;
-    list_jadwal.push(api.data.jadwal.dzuhur);
-    document.getElementById("ashar").innerHTML = api.data.jadwal.ashar;
-    list_jadwal.push(api.data.jadwal.ashar);
-    document.getElementById("maghrib").innerHTML = api.data.jadwal.maghrib;
-    list_jadwal.push(api.data.jadwal.maghrib);
-    document.getElementById("isya").innerHTML = api.data.jadwal.isya;
-    list_jadwal.push(api.data.jadwal.isya);
+if (action == "setting") {
+  setSetting(getConfig());
+  document.getElementById("setting").style.display = "block";
+} else if (action == "preview") {
+  document.getElementById("tunggu").style.display = "block";
+  var cur_data = getItem();
+  if (cur_data != null) {
+    data = JSON.parse(cur_data);
+    preview();
   } else {
-    console.log("Error : " + response);
+    callApi("https://api.myquran.com/v1/sholat/jadwal/" + id_lokasi + "/" + cur_tahun + "/" + cur_bulan);
   }
-});
+  //preview();
+} else {
+  document.getElementById("selamat-datang").style.display = "block";
+}
 
 //http://www.al-habib.info/islamic-calendar/hijricalendartext.htm
 function gmod(n, m) {
@@ -479,12 +678,16 @@ function writeIslamicDate(adjustment) {
   return outputIslamicDate;
 }
 
+var list_nama = ["Imsak","Subuh","Dzuhur","Ashar","Maghrib","Isya"];
+var list_jadwal = [];
+var cur_date;
+
 function updateJam() {
   if (action != "preview") {
     return;
   }
   var date = new Date();
-  //date.setHours(1);
+  //date.setHours(23, 59);
   var jam = date.getHours();
   if (jam < 10) {
     jam = "0" + jam;
@@ -509,7 +712,7 @@ function updateJam() {
   if (second != null) {
     second.innerHTML = detik;
   }
-  if (cur_date != date.getDate()) {
+  if (cur_date != date.getDate() && Object.keys(data).length == 12) {
     var tahun = date.getFullYear();
     var bulan = date.getMonth();
     var tanggal = date.getDate();
@@ -524,8 +727,22 @@ function updateJam() {
     if (tanggal_hijriah != null) {
       tanggal_hijriah.innerHTML = writeIslamicDate();
     }
+    bulan++;
+    list_jadwal = [];
+    document.getElementById("imsak").innerHTML = data[bulan + "_" + tahun][tanggal].imsak;
+    list_jadwal.push(data[bulan + "_" + tahun][tanggal].imsak);
+    document.getElementById("subuh").innerHTML = data[bulan + "_" + tahun][tanggal].subuh;
+    list_jadwal.push(data[bulan + "_" + tahun][tanggal].subuh);
+    document.getElementById("dzuhur").innerHTML = data[bulan + "_" + tahun][tanggal].dzuhur;
+    list_jadwal.push(data[bulan + "_" + tahun][tanggal].dzuhur);
+    document.getElementById("ashar").innerHTML = data[bulan + "_" + tahun][tanggal].ashar;
+    list_jadwal.push(data[bulan + "_" + tahun][tanggal].ashar);
+    document.getElementById("maghrib").innerHTML = data[bulan + "_" + tahun][tanggal].maghrib;
+    list_jadwal.push(data[bulan + "_" + tahun][tanggal].maghrib);
+    document.getElementById("isya").innerHTML = data[bulan + "_" + tahun][tanggal].isya;
+    list_jadwal.push(data[bulan + "_" + tahun][tanggal].isya);
     cur_date = tanggal;
-    console.log("updatex!");
+    console.log("now_update : " + tanggal + "-" + bulan + "-" + tahun);
   }
   if (list_jadwal.length == 6) {
     var x = -1;
@@ -559,85 +776,3 @@ function updateJam() {
 }
 
 setInterval(updateJam, 1000);
-
-function getValue(id) {
-  return document.getElementById(id).value;
-}
-
-function isChecked(id) {
-  return document.getElementById(id).checked;
-}
-
-function selesai() {
-  var head_type = "1";
-  var head_type_1 = isChecked("head-type-1");
-  if (head_type_1) {
-    head_type = "1";
-  }
-  var head_type_2 = isChecked("head-type-3");
-  if (head_type_2) {
-    head_type = "2";
-  }
-  var head_type_3 = isChecked("head-type-3");
-  if (head_type_3) {
-    head_type = "3";
-  }
-  var hide_alamat = isChecked("hide-alamat");
-  var hide_jam = isChecked("hide-jam");
-  var hide_jam_detik = isChecked("hide-jam-detik");
-  var hide_tanggal_masehi = isChecked("hide-tanggal-masehi");
-  var hide_tanggal_hijriah = isChecked("hide-tanggal-hijriah");
-  var nama = getValue("nama");
-  var alamat = getValue("alamat");
-  var content_type = "1";
-  var content_type_1 = isChecked("content-type-1");
-  if (content_type_1) {
-    content_type = "1";
-  }
-  var content_type_2 = isChecked("content-type-2");
-  if (content_type_2) {
-    content_type = "2";
-  }
-  var content_type_3 = isChecked("content-type-3");
-  if (content_type_3) {
-    content_type = "3";
-  }
-  var content_type_4 = isChecked("content-type-4");
-  if (content_type_4) {
-    content_type = "4";
-  }
-  var jadwal_type = "1";
-  var jadwal_type_1 = isChecked("jadwal-type-1");
-  if (jadwal_type_1) {
-    jadwal_type = "1";
-  }
-  var jadwal_type_2 = isChecked("jadwal-type-2");
-  if (jadwal_type_2) {
-    jadwal_type = "2";
-  }
-  var id = document.getElementById("id-lokasi").value;
-  var informasi_1 = getValue("informasi-1");
-  var informasi_2 = getValue("informasi-2");
-  var self = window.location;
-  self.href = self.origin + self.pathname + "?action=preview&id=" + id + "&ht=" + head_type + "&ha=" + hide_alamat + "&hj=" + hide_jam + "&hs=" + hide_jam_detik + "&hm=" + hide_tanggal_masehi + "&hh=" + hide_tanggal_hijriah + "&nama=" + nama + "&alamat=" + alamat + "&ct=" + content_type + "&jt=" + jadwal_type + "&info1=" + informasi_1 + "&info2=" + informasi_2;
-}
-
-function filterLokasi() {
-  var cari = document.getElementById("lokasi").value;
-  if (cari.length < 2) {
-    return;
-  }
-  var last_index = -1;
-  var options = document.getElementById("id-lokasi").getElementsByTagName("option");
-  for (var i = 0; i < options.length; i++) {
-    if (options[i].innerText.toLowerCase().includes(cari.toLowerCase())) {
-      options[i].style.display = "block";
-      last_index = i;
-    } else {
-      options[i].style.display = "none";
-    }
-  }
-  if (last_index != -1) {
-    options[last_index].selected = true;
-  }
-}
