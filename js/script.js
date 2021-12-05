@@ -70,6 +70,7 @@ function getItem() {
 }
 
 function clearData() {
+  window.localStorage.setItem("data", null);
   document.cookie.split(";").forEach(function(c) {
     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
   });
