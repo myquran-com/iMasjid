@@ -1,5 +1,4 @@
-
-//last update = 03/12/2021
+//last-update = 06/12/2021
 
 function filterLokasi() {
   var cari = document.getElementById("lokasi").value;
@@ -187,7 +186,7 @@ function selesai() {
   if (setting != null) {
     setConfig(setting);
     var self = window.location;
-    self.href = self.origin + self.pathname + "?action=preview&id=" + setting.id + "&ht=" + setting.head_type + "&ha=" + setting.hide_alamat + "&hj=" + setting.hide_jam + "&hs=" + setting.hide_jam_detik + "&hm=" + setting.hide_tanggal_masehi + "&hh=" + setting.hide_tanggal_hijriah + "&ct=" + setting.content_type + "&jt=" + setting.jadwal_type + "&nama=" + setting.nama + "&alamat=" + setting.alamat + "&info1=" + setting.informasi_1 + "&info2=" + setting.informasi_2;
+    self.href = self.origin + self.pathname + "?action=preview&id=" + setting.id + "&ht=" + setting.head_type + "&ha=" + setting.hide_alamat + "&hj=" + setting.hide_jam + "&hs=" + setting.hide_jam_detik + "&hm=" + setting.hide_tanggal_masehi + "&hh=" + setting.hide_tanggal_hijriah + "&ct=" + setting.content_type + "&jt=" + setting.jadwal_type + "&im=" + setting.imsak + "&sb=" + setting.subuh + "&dz=" + setting.dzuhur + "&as=" + setting.ashar + "&mg=" + setting.maghrib + "&is=" + setting.isya + "&nama=" + setting.nama + "&alamat=" + setting.alamat + "&info1=" + setting.informasi_1 + "&info2=" + setting.informasi_2;
   }
 }
 
@@ -196,7 +195,13 @@ var action = url.searchParams.get("action");
 var id_lokasi = url.searchParams.get("id");
 if (id_lokasi == null) {
   id_lokasi = "1609";
-} 
+}
+var adj_imsak = url.searchParams.get("im");
+var adj_subuh = url.searchParams.get("sb");
+var adj_dzuhur = url.searchParams.get("dz");
+var adj_ashar = url.searchParams.get("as");
+var adj_maghrib = url.searchParams.get("mg");
+var adj_isya = url.searchParams.get("is");
 
 function preview() {
   var head_type = url.searchParams.get("ht");
@@ -679,6 +684,44 @@ function writeIslamicDate(adjustment) {
   return outputIslamicDate;
 }
 
+function adjustWaktu(orig, adj) {
+  if (!orig.includes(":") && !adj.includes(":")) {
+    return null;
+  }
+  var origs = orig.split(":");
+  if (origs.length != 2) {
+    return null;
+  }
+  var orig_kiri = parseInt(origs[0]);
+  var orig_kanan = parseInt(origs[1]);
+  var adj_res = orig_kanan + parseInt(adj);
+  if (adj_res > 59) {
+    var orig_kiri_res = orig_kiri + 1;
+    if (orig_kiri_res < 10) {
+      orig_kiri_res = "0" + orig_kiri_res;
+    }
+    if (adj_res == 60) {
+      return orig_kiri_res + ":00";
+    } else {
+      var adj_kanan_res = adj_res - 60;
+      if (adj_kanan_res < 10) {
+        adj_kanan_res = "0" + adj_kanan_res;
+      }
+      return orig_kiri_res + ":" + adj_kanan_res;
+    }
+  } else {
+    var orig_kiri_res = orig_kiri;
+    if (orig_kiri_res < 10) {
+      orig_kiri_res = "0" + orig_kiri_res;
+    }
+    var adj_kanan_res = adj_res;
+    if (adj_kanan_res < 10) {
+      adj_kanan_res = "0" + adj_kanan_res;
+    }
+    return orig_kiri_res + ":" + adj_kanan_res;
+  }
+}
+
 var list_nama = ["Imsak","Subuh","Dzuhur","Ashar","Maghrib","Isya"];
 var list_jadwal = [];
 var cur_date;
@@ -730,20 +773,26 @@ function updateJam() {
     }
     bulan++;
     list_jadwal = [];
-    document.getElementById("imsak").innerHTML = data[bulan + "_" + tahun][tanggal].imsak;
-    list_jadwal.push(data[bulan + "_" + tahun][tanggal].imsak);
-    document.getElementById("subuh").innerHTML = data[bulan + "_" + tahun][tanggal].subuh;
-    list_jadwal.push(data[bulan + "_" + tahun][tanggal].subuh);
-    document.getElementById("dzuhur").innerHTML = data[bulan + "_" + tahun][tanggal].dzuhur;
-    list_jadwal.push(data[bulan + "_" + tahun][tanggal].dzuhur);
-    document.getElementById("ashar").innerHTML = data[bulan + "_" + tahun][tanggal].ashar;
-    list_jadwal.push(data[bulan + "_" + tahun][tanggal].ashar);
-    document.getElementById("maghrib").innerHTML = data[bulan + "_" + tahun][tanggal].maghrib;
-    list_jadwal.push(data[bulan + "_" + tahun][tanggal].maghrib);
-    document.getElementById("isya").innerHTML = data[bulan + "_" + tahun][tanggal].isya;
-    list_jadwal.push(data[bulan + "_" + tahun][tanggal].isya);
+    var imsak = adjustWaktu(data[bulan + "_" + tahun][tanggal].imsak, adj_imsak);
+    document.getElementById("imsak").innerHTML = imsak;
+    list_jadwal.push(imsak);
+    var subuh = adjustWaktu(data[bulan + "_" + tahun][tanggal].subuh, adj_subuh);
+    document.getElementById("subuh").innerHTML = subuh;
+    list_jadwal.push(subuh);
+    var dzuhur = adjustWaktu(data[bulan + "_" + tahun][tanggal].dzuhur, adj_dzuhur);
+    document.getElementById("dzuhur").innerHTML = dzuhur;
+    list_jadwal.push(dzuhur);
+    var ashar = data[bulan + "_" + tahun][tanggal].ashar;
+    document.getElementById("ashar").innerHTML = ashar;
+    list_jadwal.push(ashar);
+    var maghrib = data[bulan + "_" + tahun][tanggal].maghrib;
+    document.getElementById("maghrib").innerHTML = maghrib;
+    list_jadwal.push(maghrib);
+    var isya = data[bulan + "_" + tahun][tanggal].isya;
+    document.getElementById("isya").innerHTML = isya;
+    list_jadwal.push(isya);
     cur_date = tanggal;
-    console.log("now_update : " + tanggal + "-" + bulan + "-" + tahun);
+    console.log("update : " + tanggal + "-" + bulan + "-" + tahun);
   }
   if (list_jadwal.length == 6) {
     var x = -1;
