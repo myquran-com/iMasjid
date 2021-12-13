@@ -69,7 +69,7 @@ function getItem() {
 }
 
 function clearData() {
-  window.localStorage.setItem("data", null);
+  window.localStorage.clear();
   document.cookie.split(";").forEach(function(c) {
     document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
   });
@@ -95,6 +95,7 @@ function getSetting() {
   setting.hide_jam_detik = getChecked("hide-jam-detik");
   setting.hide_tanggal_masehi = getChecked("hide-tanggal-masehi");
   setting.hide_tanggal_hijriah = getChecked("hide-tanggal-hijriah");
+  setting.background = getValue("background");
   var content_type = "0";
   if (getChecked("content-type-1")) {
     content_type = "1";
@@ -150,6 +151,7 @@ function setSetting(setting) {
   setChecked("hide-jam-detik", setting.hide_jam_detik);
   setChecked("hide-tanggal-masehi", setting.hide_tanggal_masehi);
   setChecked("hide-tanggal-hijriah", setting.hide_tanggal_hijriah);
+  setValue("background", setting.background);
   var content_type = setting.content_type;
   if (content_type == "1") {
     setChecked("content-type-1", true);
@@ -186,7 +188,7 @@ function selesai() {
   if (setting != null) {
     setConfig(setting);
     var self = window.location;
-    self.href = self.origin + self.pathname + "?action=preview&id=" + setting.id + "&ht=" + setting.head_type + "&ha=" + setting.hide_alamat + "&hj=" + setting.hide_jam + "&hs=" + setting.hide_jam_detik + "&hm=" + setting.hide_tanggal_masehi + "&hh=" + setting.hide_tanggal_hijriah + "&ct=" + setting.content_type + "&jt=" + setting.jadwal_type + "&im=" + setting.imsak + "&sb=" + setting.subuh + "&dz=" + setting.dzuhur + "&as=" + setting.ashar + "&mg=" + setting.maghrib + "&is=" + setting.isya + "&nama=" + setting.nama + "&alamat=" + setting.alamat + "&info1=" + setting.informasi_1 + "&info2=" + setting.informasi_2;
+    self.href = self.origin + self.pathname + "?action=preview&id=" + setting.id + "&ht=" + setting.head_type + "&ha=" + setting.hide_alamat + "&hj=" + setting.hide_jam + "&hs=" + setting.hide_jam_detik + "&hm=" + setting.hide_tanggal_masehi + "&hh=" + setting.hide_tanggal_hijriah + "&bg=" + setting.background + "&ct=" + setting.content_type + "&jt=" + setting.jadwal_type + "&im=" + setting.imsak + "&sb=" + setting.subuh + "&dz=" + setting.dzuhur + "&as=" + setting.ashar + "&mg=" + setting.maghrib + "&is=" + setting.isya + "&nama=" + setting.nama + "&alamat=" + setting.alamat + "&info1=" + setting.informasi_1 + "&info2=" + setting.informasi_2;
   }
 }
 
@@ -212,6 +214,7 @@ function preview() {
   var hide_hijri = url.searchParams.get("hh");
   var nama = url.searchParams.get("nama");
   var alamat = url.searchParams.get("alamat");
+  var url_background = url.searchParams.get("bg");
   var content_type = url.searchParams.get("ct");
   var jadwal_type = url.searchParams.get("jt");
   var informasi_1 = url.searchParams.get("info1");
@@ -535,6 +538,7 @@ function preview() {
   p_node_info_2.appendChild(p_textnode_info_2);
   document.getElementById("informasi").appendChild(p_node_info_2);
   document.getElementById("tunggu").style.display = "none";
+  document.getElementById("preview").style.backgroundImage = "url(" + url_background + ")";
   document.getElementById("preview").style.display = "block";
 }
 
