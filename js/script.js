@@ -565,7 +565,7 @@ function callApi(url_api) {
       }
       document.getElementById("tunggu_value").value = cur_index;
       if (cur_index < 12) {
-        callApi("https://api.myquran.com/v1/sholat/jadwal/" + id_lokasi + "/" + cur_tahun + "/" + cur_bulan);
+        callApi("https://api.myquran.com/v2/sholat/jadwal/" + id_lokasi + "/" + cur_tahun + "/" + cur_bulan);
       } else {
         setItem(JSON.stringify(data));
         preview();
@@ -585,7 +585,7 @@ if (action == "setting") {
     data = JSON.parse(cur_data);
     preview();
   } else {
-    callApi("https://api.myquran.com/v1/sholat/jadwal/" + id_lokasi + "/" + cur_tahun + "/" + cur_bulan);
+    callApi("https://api.myquran.com/v2/sholat/jadwal/" + id_lokasi + "/" + cur_tahun + "/" + cur_bulan);
   }
   //preview();
 } else {
